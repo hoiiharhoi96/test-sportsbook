@@ -1,0 +1,16 @@
+FROM php:8.5-fpm-alpine
+
+RUN apk add --no-cache \
+    bash \
+    curl \
+    git \
+    unzip \
+    libpq-dev \
+    && docker-php-ext-install pdo pdo_mysql
+
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+WORKDIR /var/www/html
+
+EXPOSE 9000
+CMD ["php-fpm"]
